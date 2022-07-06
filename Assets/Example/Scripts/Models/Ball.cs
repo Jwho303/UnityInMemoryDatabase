@@ -11,18 +11,23 @@ namespace RenderHeads
     {
         #region Public Properties
         public int ColorIndex;
-        #endregion
+        public Vector3 Position;
+		#endregion
 
-        #region Private Properties
+		#region Private Properties
 
-        #endregion
+		#endregion
 
-        #region Public Methods
+		#region Public Methods
+		public Ball(int colorIndex, Vector3 position)
+		{
+			ColorIndex = colorIndex;
+			Position = position;
+		}
+		#endregion
 
-        #endregion
+		#region Private Methods
 
-        #region Private Methods
-
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -20,6 +20,9 @@ namespace RenderHeads
 		#region Public Methods
 		public void Start()
 		{
+			_dataBase = new GameDatabase();
+			_dataBase.Initialize();
+
 			_ballSystem = new BallSystem(_dataBase, _ballPool);
 		}
 

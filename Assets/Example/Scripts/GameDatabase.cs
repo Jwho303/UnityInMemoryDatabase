@@ -16,7 +16,7 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
-		public override void Init()
+		public override void Initialize()
 		{
 			CreateTable<Ball>();
 		}

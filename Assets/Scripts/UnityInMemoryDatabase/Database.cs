@@ -18,7 +18,7 @@ namespace InMemoryDatabase
 		#endregion
 
 		#region Public Methods
-		public abstract void Init();
+		public abstract void Initialize();
 
 		public void CreateTable<T>() where T : TableEntry
 		{

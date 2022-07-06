@@ -25,6 +25,7 @@ namespace RenderHeads
             _entityPool = entityPool;
 
             _entityPool.Initialize(OnCreateEntity, OnGetEntity, OnReleaseEntity, maxSize);
+            Debug.Log($"[{this.GetType().Name}] Hello");
         }
 
 		protected abstract void OnReleaseEntity(GameEntity<T> gameEntity);

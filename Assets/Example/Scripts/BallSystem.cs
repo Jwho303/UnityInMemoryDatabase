@@ -21,7 +21,7 @@ namespace RenderHeads
 		#region Public Methods
 		public BallSystem(Database database, EntityPool<Ball> entityPool) : base(database, entityPool, 100)
 		{
-			
+			_entityPool.Get();
 		}
 		#endregion
 
@@ -38,6 +38,9 @@ namespace RenderHeads
 
 		protected override void OnGetEntity(GameEntity<Ball> gameEntity)
 		{
+			Ball ball = new Ball(1, Vector3.zero);
+			_database.Insert(ball);
+			gameEntity.Initialize(ball);
 			gameEntity.gameObject.SetActive(true);
 		}
 
