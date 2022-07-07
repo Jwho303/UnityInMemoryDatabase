@@ -60,10 +60,11 @@ namespace RenderHeads
 			List<Cube> cubes = _database.GetAll<Cube>();
 			if (cubes.Count > 4)
 			{
-				if (_entityPool.TryGet(cubes.Last().Id, out CubeEntity gameEntity))
+				Cube cubeEntry = cubes.Last();
+				if (_entityPool.TryGet(cubeEntry.Id, out CubeEntity gameEntity))
 				{
 					_entityPool.Release(gameEntity);
-					_database.Remove(cubes.Last());
+					_database.Remove(cubeEntry);
 				}
 			}
 		}
