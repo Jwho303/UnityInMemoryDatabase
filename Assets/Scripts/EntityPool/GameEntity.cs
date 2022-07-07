@@ -23,10 +23,15 @@ namespace RenderHeads
         {
             TableEntry = tableEntry;
 		}
-        #endregion
 
-        #region Private Methods
+		internal void Deinitialize()
+		{
+            TableEntry = null;
+		}
+		#endregion
 
-        #endregion
-    }
+		#region Private Methods
+
+		#endregion
+	}
 }

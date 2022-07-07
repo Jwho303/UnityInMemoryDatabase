@@ -30,7 +30,7 @@ namespace RenderHeads
 			_onReleaseEntity += onReleaseEntity;
 			_maxSize = maxSize;
 
-			if (_maxSize < 1)
+			if (_maxSize < 0)
 			{
 				Debug.LogError($"[{this.GetType().Name}] Max pool size set to ({maxSize})");
 			}
@@ -43,7 +43,22 @@ namespace RenderHeads
 			}
 		}
 
-		public GameEntity<T> Get()
+		public GameEntity<T> CreateEntity()
+		{
+			GameEntity<T> gameEntity = Instantiate(Prefab, this.transform);
+			AddToPool(gameEntity);
+
+			_onCreateEntity(gameEntity);
+
+			return gameEntity;
+		}
+
+		public void AddToPool(GameEntity<T> gameEntity)
+		{
+			_gameEntities.Add(gameEntity);
+		}
+
+		public GameEntity<T> Take()
 		{
 			GameEntity<T> gameEntity = null;
 
@@ -71,19 +86,28 @@ namespace RenderHeads
 			_onReleaseEntity(gameEntity);
 		}
 
+		public bool TryGet(Guid guid, out GameEntity<T> gameEntity)
+		{
+			gameEntity = null;
+
+			for (int i = 0; i < _gameEntities.Count; i++)
+			{
+				if (_gameEntities[i].gameObject.activeInHierarchy)
+				{
+					if (_gameEntities[i].Id == guid)
+					{
+						gameEntity = _gameEntities[i];
+						break;
+					}
+				}
+			}
+
+			return gameEntity != null;
+		}
+
 		#endregion
 
 		#region Private Methods
-		private GameEntity<T> CreateEntity()
-		{
-			GameEntity<T> gameEntity = Instantiate(Prefab, this.transform);
-			_gameEntities.Add(gameEntity);
-
-			_onCreateEntity(gameEntity);
-
-			return gameEntity;
-		}
-
 
 		#endregion
 	}

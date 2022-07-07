@@ -23,11 +23,11 @@ namespace InMemoryDatabase
 			SetType = setType;
 		}
 
-		public Guid Insert<T>(T entry) where T : TableEntry
+		public T Insert<T>(T entry) where T : TableEntry
 		{
-			entry.Id = new Guid();
+			entry.Id = Guid.NewGuid();
 			_entries.Add(entry);
-			return entry.Id;
+			return entry;
 		}
 
 		public List<TableEntry> GetAll()
@@ -94,15 +94,15 @@ namespace InMemoryDatabase
 			return result;
 		}
 
-		internal Guid ReplaceOrInsert<T>(T entry) where T : TableEntry
+		internal T ReplaceOrInsert<T>(T insertEntry) where T : TableEntry
 		{
-			Guid guid = entry.Id;
-			if (!Replace(entry))
+			T modifedEntry = insertEntry;
+			if (!Replace(insertEntry))
 			{
-				guid = Insert(entry);
+				modifedEntry = Insert(insertEntry);
 			}
 
-			return guid;
+			return modifedEntry;
 		}
 		#endregion
 

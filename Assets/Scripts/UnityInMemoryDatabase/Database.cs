@@ -40,7 +40,7 @@ namespace InMemoryDatabase
 			return _database[t.FullName].GetAll<T>();
 		}
 
-		public Guid Insert<T>(T entry) where T : TableEntry
+		public T Insert<T>(T entry) where T : TableEntry
 		{
 			Type t = typeof(T);
 			return _database[t.FullName].Insert(entry);
@@ -69,7 +69,7 @@ namespace InMemoryDatabase
 			Type t = typeof(T);
 			return _database[t.FullName].Replace(entry);
 		}
-		internal Guid ReplaceOrInsert<T>(T entry) where T : TableEntry
+		internal T ReplaceOrInsert<T>(T entry) where T : TableEntry
 		{
 			Type t = typeof(T);
 			return _database[t.FullName].ReplaceOrInsert(entry);

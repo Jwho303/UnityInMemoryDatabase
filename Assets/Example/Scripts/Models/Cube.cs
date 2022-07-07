@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InMemoryDatabase;
+
 namespace RenderHeads
 {
-	public class GameDatabase : Database
-	{
-		#region Public Properties
+    [System.Serializable]
+    public class Cube : TableEntry
+    {
+        #region Public Properties
+        public Vector3 Position;
 
 		#endregion
 
@@ -16,16 +19,14 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
-		public override void Initialize()
+		public Cube(Vector3 position)
 		{
-			CreateTable<Ball>();
-			CreateTable<Cube>();
+			Position = position;
 		}
 		#endregion
 
 		#region Private Methods
 
 		#endregion
-
 	}
 }

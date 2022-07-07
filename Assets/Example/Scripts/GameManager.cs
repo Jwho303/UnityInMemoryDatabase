@@ -11,10 +11,16 @@ namespace RenderHeads
 		#endregion
 
 		#region Private Properties
+		
+		private GameDatabase _dataBase;
+
 		[SerializeField]
 		private BallPool _ballPool;
 		private BallSystem _ballSystem;
-		private GameDatabase _dataBase;
+
+		[SerializeField]
+		private CubePool _cubePool;
+		private CubeSystem _cubeSystem;
 		#endregion
 
 		#region Public Methods
@@ -24,11 +30,13 @@ namespace RenderHeads
 			_dataBase.Initialize();
 
 			_ballSystem = new BallSystem(_dataBase, _ballPool);
+			_cubeSystem = new CubeSystem(_dataBase, _cubePool);
 		}
 
 		public void Update()
 		{
 			_ballSystem.OnUpdate();
+			_cubeSystem.OnUpdate();
 		}
 		#endregion
 

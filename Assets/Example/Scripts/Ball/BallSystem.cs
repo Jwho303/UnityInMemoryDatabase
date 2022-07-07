@@ -21,14 +21,23 @@ namespace RenderHeads
 		#region Public Methods
 		public BallSystem(Database database, EntityPool<Ball> entityPool) : base(database, entityPool, 100)
 		{
-			_entityPool.Get();
+			_entityPool.Take();
 		}
 		#endregion
 
 		#region Private Methods
 		public override void OnUpdate()
 		{
-			
+			List<Ball> balls = _database.GetAll<Ball>();
+			int count = balls.Count;
+
+			for (int i = 0; i < count; i++)
+			{
+				if (_entityPool.TryGet(balls[i].Id, out GameEntity<Ball> gameEntity))
+				{
+					//Debug.Log(gameEntity.Id);
+				}
+			}
 		}
 
 		protected override void OnCreateEntity(GameEntity<Ball> gameEntity)
@@ -47,6 +56,7 @@ namespace RenderHeads
 		protected override void OnReleaseEntity(GameEntity<Ball> gameEntity)
 		{
 			gameEntity.gameObject.SetActive(false);
+			gameEntity.Deinitialize();
 		}
 
 		#endregion
