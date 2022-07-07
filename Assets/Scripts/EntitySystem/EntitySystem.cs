@@ -7,7 +7,7 @@ using System;
 
 namespace RenderHeads
 {
-    public abstract class EntitySystem<T> where T : TableEntry
+    public abstract class EntitySystem<T, Y> where T : TableEntry where Y: GameEntity<T>
     {
         #region Public Properties
 
@@ -15,11 +15,11 @@ namespace RenderHeads
 
         #region Private Properties
         protected Database _database;
-        protected EntityPool<T> _entityPool;
+        protected EntityPool<T, Y> _entityPool;
         #endregion
 
         #region Public Methods
-        public EntitySystem(Database database, EntityPool<T> entityPool, int maxSize)
+        public EntitySystem(Database database, EntityPool<T, Y> entityPool, int maxSize)
         {
             _database = database;
             _entityPool = entityPool;
@@ -28,9 +28,9 @@ namespace RenderHeads
             Debug.Log($"[{this.GetType().Name}] Hello");
         }
 
-		protected abstract void OnReleaseEntity(GameEntity<T> gameEntity);
-		protected abstract void OnGetEntity(GameEntity<T> gameEntity);
-		protected abstract void OnCreateEntity(GameEntity<T> gameEntity);
+		protected abstract void OnReleaseEntity(Y gameEntity);
+		protected abstract void OnGetEntity(Y gameEntity);
+		protected abstract void OnCreateEntity(Y gameEntity);
 		public abstract void OnUpdate();
         #endregion
 

@@ -18,8 +18,8 @@ namespace RenderHeads
 		#region Public Methods
 		public override void Initialize()
 		{
-			CreateTable<Ball>();
 			CreateTable<Cube>();
+			CreateTable<Ball>();
 		}
 		#endregion
 

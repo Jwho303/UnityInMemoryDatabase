@@ -29,14 +29,14 @@ namespace RenderHeads
 			_dataBase = new GameDatabase();
 			_dataBase.Initialize();
 
-			_ballSystem = new BallSystem(_dataBase, _ballPool);
 			_cubeSystem = new CubeSystem(_dataBase, _cubePool);
+			_ballSystem = new BallSystem(_dataBase, _ballPool);
 		}
 
 		public void Update()
 		{
-			_ballSystem.OnUpdate();
 			_cubeSystem.OnUpdate();
+			_ballSystem.OnUpdate();
 		}
 		#endregion
 

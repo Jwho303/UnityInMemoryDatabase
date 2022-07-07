@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RenderHeads
 {
-    public class CubePool : EntityPool<Cube>
+    public class CubePool : EntityPool<Cube, CubeEntity>
     {
         #region Public Properties
         

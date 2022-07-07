@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RenderHeads
 {
-	public class CubeSystem : EntitySystem<Cube>
+	public class CubeSystem : EntitySystem<Cube, CubeEntity>
 	{
 
 		#region Public Properties
@@ -18,7 +18,7 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
-		public CubeSystem(Database database, EntityPool<Cube> entityPool) : base(database, entityPool, 0)
+		public CubeSystem(Database database, EntityPool<Cube, CubeEntity> entityPool) : base(database, entityPool, 0)
 		{
 			CubeEntity[] cubes = GameObject.FindObjectsOfType<CubeEntity>();
 			int count = cubes.Length;
@@ -34,29 +34,20 @@ namespace RenderHeads
 
 		public override void OnUpdate()
 		{
-			List<Cube> cubes = _database.GetAll<Cube>();
-			int count = cubes.Count;
 
-			for (int i = 0; i < count; i++)
-			{
-				if (_entityPool.TryGet(cubes[i].Id, out GameEntity<Cube> gameEntity))
-				{
-					Debug.Log(gameEntity.Id);
-				}
-			}
 		}
 
-		protected override void OnCreateEntity(GameEntity<Cube> gameEntity)
+		protected override void OnCreateEntity(CubeEntity gameEntity)
 		{
 			
 		}
 
-		protected override void OnGetEntity(GameEntity<Cube> gameEntity)
+		protected override void OnGetEntity(CubeEntity gameEntity)
 		{
 			
 		}
 
-		protected override void OnReleaseEntity(GameEntity<Cube> gameEntity)
+		protected override void OnReleaseEntity(CubeEntity gameEntity)
 		{
 			
 		}

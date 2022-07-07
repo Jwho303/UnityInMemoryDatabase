@@ -22,9 +22,9 @@ namespace InMemoryDatabase
 			return $"Id({Id})";
 		}
 
-		public void Save(Database database)
+		public void Save<T>(Database database) where T : TableEntry
 		{
-			database.ReplaceOrInsert(this);
+			database.ReplaceOrInsert<T>(this as T);
 		}
 		#endregion
 

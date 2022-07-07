@@ -7,23 +7,23 @@ using System;
 
 namespace RenderHeads
 {
-	public abstract class EntityPool<T> : MonoBehaviour where T : TableEntry
+	public abstract class EntityPool<T, Y> : MonoBehaviour where T : TableEntry where Y : GameEntity<T>
 	{
 		#region Public Properties
-		public GameEntity<T> Prefab;
+		public Y Prefab;
 		#endregion
 
 		#region Private Properties
-		private List<GameEntity<T>> _gameEntities = new List<GameEntity<T>>();
-		private Action<GameEntity<T>> _onCreateEntity = delegate { };
-		private Action<GameEntity<T>> _onGetEntity = delegate { };
-		private Action<GameEntity<T>> _onReleaseEntity = delegate { };
+		private List<Y> _gameEntities = new List<Y>();
+		private Action<Y> _onCreateEntity = delegate { };
+		private Action<Y> _onGetEntity = delegate { };
+		private Action<Y> _onReleaseEntity = delegate { };
 		private int _maxSize;
 
 		#endregion
 
 		#region Public Methods
-		public void Initialize(Action<GameEntity<T>> onCreateEntity, Action<GameEntity<T>> onGetEntity, Action<GameEntity<T>> onReleaseEntity, int maxSize)
+		public void Initialize(Action<Y> onCreateEntity, Action<Y> onGetEntity, Action<Y> onReleaseEntity, int maxSize)
 		{
 			_onCreateEntity += onCreateEntity;
 			_onGetEntity += onGetEntity;
@@ -43,30 +43,30 @@ namespace RenderHeads
 			}
 		}
 
-		public GameEntity<T> CreateEntity()
+		public Y CreateEntity()
 		{
-			GameEntity<T> gameEntity = Instantiate(Prefab, this.transform);
+			Y gameEntity = Instantiate(Prefab, this.transform);
 			AddToPool(gameEntity);
 
 			_onCreateEntity(gameEntity);
 
-			return gameEntity;
+			return gameEntity as Y;
 		}
 
-		public void AddToPool(GameEntity<T> gameEntity)
+		public void AddToPool(Y gameEntity)
 		{
 			_gameEntities.Add(gameEntity);
 		}
 
-		public GameEntity<T> Take()
+		public Y Take()
 		{
-			GameEntity<T> gameEntity = null;
+			Y gameEntity = null;
 
 			for (int i = 0; i < _gameEntities.Count; i++)
 			{
 				if (!_gameEntities[i].gameObject.activeInHierarchy)
 				{
-					gameEntity = _gameEntities[i];
+					gameEntity = _gameEntities[i] as Y;
 					break;
 				}
 			}
@@ -78,15 +78,15 @@ namespace RenderHeads
 
 			_onGetEntity(gameEntity);
 
-			return gameEntity;
+			return gameEntity as Y;
 		}
 
-		public void Release(GameEntity<T> gameEntity)
+		public void Release(Y gameEntity)
 		{
 			_onReleaseEntity(gameEntity);
 		}
 
-		public bool TryGet(Guid guid, out GameEntity<T> gameEntity)
+		public bool TryGet(Guid guid, out Y gameEntity)
 		{
 			gameEntity = null;
 
@@ -96,7 +96,7 @@ namespace RenderHeads
 				{
 					if (_gameEntities[i].Id == guid)
 					{
-						gameEntity = _gameEntities[i];
+						gameEntity = _gameEntities[i] as Y;
 						break;
 					}
 				}

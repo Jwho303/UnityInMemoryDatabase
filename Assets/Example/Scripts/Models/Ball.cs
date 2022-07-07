@@ -21,10 +21,11 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
-		public Ball(int colorIndex, Vector3 position)
+		public Ball(int colorIndex, Vector3 position, Guid targetCube)
 		{
 			ColorIndex = colorIndex;
 			Position = position;
+			TargetCubeId = targetCube;
 		}
 		#endregion
 

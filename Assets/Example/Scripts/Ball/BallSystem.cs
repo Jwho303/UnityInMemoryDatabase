@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RenderHeads
 {
-	public class BallSystem : EntitySystem<Ball>
+	public class BallSystem : EntitySystem<Ball, BallEntity>
 	{
 
 		#region Public Properties
@@ -19,8 +19,10 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
-		public BallSystem(Database database, EntityPool<Ball> entityPool) : base(database, entityPool, 100)
+		public BallSystem(Database database, BallPool ballPool) : base(database, ballPool, 100)
 		{
+			_entityPool.Take();
+			_entityPool.Take();
 			_entityPool.Take();
 		}
 		#endregion
@@ -33,27 +35,46 @@ namespace RenderHeads
 
 			for (int i = 0; i < count; i++)
 			{
-				if (_entityPool.TryGet(balls[i].Id, out GameEntity<Ball> gameEntity))
+				if (_entityPool.TryGet(balls[i].Id, out BallEntity gameEntity))
 				{
-					//Debug.Log(gameEntity.Id);
+					if (gameEntity.Arrived())
+					{
+						AssignNewCubeTarget(balls[i], gameEntity);
+					}
+
+					gameEntity.MoveToTarget();
 				}
 			}
 		}
 
-		protected override void OnCreateEntity(GameEntity<Ball> gameEntity)
+		private void AssignNewCubeTarget(Ball ball, BallEntity gameEntity)
+		{
+			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
+			{
+				ball.TargetCubeId = randomCube.Id;
+				ball.Save<Ball>(_database);
+				gameEntity.SetTargetPosition(randomCube.Position);
+			}
+		}
+
+		protected override void OnCreateEntity(BallEntity gameEntity)
 		{
 			gameEntity.gameObject.SetActive(false);
 		}
 
-		protected override void OnGetEntity(GameEntity<Ball> gameEntity)
+		protected override void OnGetEntity(BallEntity gameEntity)
 		{
-			Ball ball = new Ball(1, Vector3.zero);
-			_database.Insert(ball);
-			gameEntity.Initialize(ball);
-			gameEntity.gameObject.SetActive(true);
+			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
+			{
+				Ball ball = new Ball(1, Vector3.zero, randomCube.Id);
+				_database.Insert(ball);
+				gameEntity.Initialize(ball);
+
+				gameEntity.gameObject.SetActive(true);
+			}
 		}
 
-		protected override void OnReleaseEntity(GameEntity<Ball> gameEntity)
+		protected override void OnReleaseEntity(BallEntity gameEntity)
 		{
 			gameEntity.gameObject.SetActive(false);
 			gameEntity.Deinitialize();
