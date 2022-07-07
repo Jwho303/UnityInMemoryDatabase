@@ -7,8 +7,8 @@ using System.IO;
 
 namespace InMemoryDatabase
 {
-    public abstract class Database
-    {
+	public abstract class Database
+	{
 		#region Public Properties
 
 		#endregion
@@ -32,6 +32,21 @@ namespace InMemoryDatabase
 			{
 				Debug.LogError($"[{this.GetType().Name}] Table ({t.FullName}) already exists!");
 			}
+		}
+
+		public Table GetTable<T>() where T : TableEntry
+		{
+			Type t = typeof(T);
+			if (!_database.ContainsKey(t.FullName))
+			{
+				return (_database[t.FullName]);
+			}
+			else
+			{
+				Debug.LogError($"[{this.GetType().Name}] Table ({t.FullName}) already exists!");
+			}
+
+			return null;
 		}
 
 		public List<T> GetAll<T>() where T : TableEntry
@@ -75,6 +90,12 @@ namespace InMemoryDatabase
 			return _database[t.FullName].ReplaceOrInsert(entry);
 		}
 
+		internal bool Remove<T>(T entry) where T : TableEntry
+		{
+			Type t = typeof(T);
+			return _database[t.FullName].Remove(entry);
+		}
+
 		internal void PrintSnapShot()
 		{
 			string s = $"[{this.GetType().Name}]\n";
@@ -97,7 +118,6 @@ namespace InMemoryDatabase
 			bool result = false;
 
 			string json = JsonUtility.ToJson(_database, true);
-
 			try
 			{
 				File.WriteAllText(path, json);

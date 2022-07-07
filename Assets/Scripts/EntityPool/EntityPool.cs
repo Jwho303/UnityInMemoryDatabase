@@ -11,10 +11,10 @@ namespace RenderHeads
 	{
 		#region Public Properties
 		public Y Prefab;
+		public List<Y> GameEntities = new List<Y>();
 		#endregion
 
 		#region Private Properties
-		private List<Y> _gameEntities = new List<Y>();
 		private Action<Y> _onCreateEntity = delegate { };
 		private Action<Y> _onGetEntity = delegate { };
 		private Action<Y> _onReleaseEntity = delegate { };
@@ -55,18 +55,18 @@ namespace RenderHeads
 
 		public void AddToPool(Y gameEntity)
 		{
-			_gameEntities.Add(gameEntity);
+			GameEntities.Add(gameEntity);
 		}
 
-		public Y Take()
+		public Y Take(T tableEntry)
 		{
 			Y gameEntity = null;
 
-			for (int i = 0; i < _gameEntities.Count; i++)
+			for (int i = 0; i < GameEntities.Count; i++)
 			{
-				if (!_gameEntities[i].gameObject.activeInHierarchy)
+				if (!GameEntities[i].gameObject.activeInHierarchy)
 				{
-					gameEntity = _gameEntities[i] as Y;
+					gameEntity = GameEntities[i] as Y;
 					break;
 				}
 			}
@@ -76,9 +76,20 @@ namespace RenderHeads
 				gameEntity = CreateEntity();
 			}
 
+			gameEntity.Initialize(tableEntry);
 			_onGetEntity(gameEntity);
 
 			return gameEntity as Y;
+		}
+
+		public void ReleaseAll()
+		{
+			int count = GameEntities.Count;
+
+			for (int i = 0; i < count; i++)
+			{
+				Release(GameEntities[i]);
+			}
 		}
 
 		public void Release(Y gameEntity)
@@ -89,14 +100,15 @@ namespace RenderHeads
 		public bool TryGet(Guid guid, out Y gameEntity)
 		{
 			gameEntity = null;
+			int count = GameEntities.Count;
 
-			for (int i = 0; i < _gameEntities.Count; i++)
+			for (int i = 0; i < count; i++)
 			{
-				if (_gameEntities[i].gameObject.activeInHierarchy)
+				if (GameEntities[i].gameObject.activeInHierarchy)
 				{
-					if (_gameEntities[i].Id == guid)
+					if (GameEntities[i].Id == guid)
 					{
-						gameEntity = _gameEntities[i] as Y;
+						gameEntity = GameEntities[i];
 						break;
 					}
 				}

@@ -104,6 +104,10 @@ namespace InMemoryDatabase
 
 			return modifedEntry;
 		}
+		internal bool Remove<T>(T entry) where T : TableEntry
+		{
+			return _entries.Remove(entry);
+		}
 		#endregion
 
 		#region Private Methods

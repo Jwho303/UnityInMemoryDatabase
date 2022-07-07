@@ -21,11 +21,15 @@ namespace RenderHeads
 		[SerializeField]
 		private CubePool _cubePool;
 		private CubeSystem _cubeSystem;
+
+		private string _savePath = string.Empty;
 		#endregion
 
 		#region Public Methods
 		public void Start()
 		{
+			_savePath = System.IO.Path.Combine(Application.persistentDataPath, "save.json");
+
 			_dataBase = new GameDatabase();
 			_dataBase.Initialize();
 
@@ -37,6 +41,41 @@ namespace RenderHeads
 		{
 			_cubeSystem.OnUpdate();
 			_ballSystem.OnUpdate();
+		}
+
+		public void AddBall()
+		{
+			_ballSystem.AddBall();
+		}
+
+		public void RemoveBall()
+		{
+			_ballSystem.RemoveBall();
+		}
+
+		public void AddCube()
+		{
+			_cubeSystem.AddCube();
+		}
+
+		public void RemoveCube()
+		{
+			_cubeSystem.RemoveCube();
+		}
+
+		public void Save()
+		{
+			_ballSystem.Save();
+			_dataBase.Save(_savePath);
+
+			_dataBase.PrintSnapShot();
+			Debug.Log($"Save file to ({_savePath})");
+		}
+
+		public void Load()
+		{
+			_dataBase.Load(_savePath);
+			_ballSystem.Load();
 		}
 		#endregion
 
