@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using InMemoryDatabase;
 using UnityEngine;
+using System.Linq;
 
 namespace RenderHeads
 {
@@ -59,7 +60,11 @@ namespace RenderHeads
 			List<Cube> cubes = _database.GetAll<Cube>();
 			if (cubes.Count > 4)
 			{
-
+				if (_entityPool.TryGet(cubes.Last().Id, out CubeEntity gameEntity))
+				{
+					_entityPool.Release(gameEntity);
+					_database.Remove(cubes.Last());
+				}
 			}
 		}
 
