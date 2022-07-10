@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace RenderHeads
 {
-	public class CubeSystem : EntitySystem<Cube, CubeEntity>
+	public class CubeSystem : EntityPoolSystem<Cube, CubeEntity>
 	{
 
 		#region Public Properties

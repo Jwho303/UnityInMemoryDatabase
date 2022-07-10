@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RenderHeads
 {
-	public class BallSystem : EntitySystem<Ball, BallEntity>
+	public class BallSystem : EntityPoolSystem<Ball, BallEntity>
 	{
 
 		#region Public Properties
