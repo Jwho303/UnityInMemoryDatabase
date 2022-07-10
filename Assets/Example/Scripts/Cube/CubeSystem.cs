@@ -2,11 +2,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using InMemoryDatabase;
+using RenderHeads.InMemoryDatabase;
+using RenderHeads.EntitySystem;
 using UnityEngine;
 using System.Linq;
 
-namespace RenderHeads
+namespace RenderHeads.Example
 {
 	public class CubeSystem : EntityPoolSystem<Cube, CubeEntity>
 	{

@@ -3,8 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RenderHeads.EntitySystem;
 
-namespace RenderHeads
+namespace RenderHeads.Example
 {
 	public class BallEntity : GameEntity<Ball>
 	{

@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-namespace InMemoryDatabase
+namespace RenderHeads.InMemoryDatabase
 {
 	public class Table
 	{

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace InMemoryDatabase
+namespace RenderHeads.InMemoryDatabase
 {
 	public abstract class TableEntry
 	{

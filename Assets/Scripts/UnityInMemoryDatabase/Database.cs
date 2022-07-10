@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 using System.IO;
 
-namespace InMemoryDatabase
+namespace RenderHeads.InMemoryDatabase
 {
 	public abstract class Database
 	{

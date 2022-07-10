@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using InMemoryDatabase;
+using RenderHeads.InMemoryDatabase;
 using System;
 
-namespace RenderHeads
+namespace RenderHeads.Example
 {
 	[System.Serializable]
 	public class Cube : TableEntry

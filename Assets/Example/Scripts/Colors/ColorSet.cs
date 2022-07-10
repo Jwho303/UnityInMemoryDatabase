@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using InMemoryDatabase;
+using RenderHeads.InMemoryDatabase;
 
-namespace RenderHeads
+namespace RenderHeads.Example
 {
     [CreateAssetMenu(fileName = "ColorSet", menuName = "ColorSet")]
     public class ColorSet : ScriptableObject

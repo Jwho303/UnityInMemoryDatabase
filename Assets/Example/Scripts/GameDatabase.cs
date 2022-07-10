@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using InMemoryDatabase;
-namespace RenderHeads
+using RenderHeads.InMemoryDatabase;
+
+namespace RenderHeads.Example
 {
 	public class GameDatabase : Database
 	{

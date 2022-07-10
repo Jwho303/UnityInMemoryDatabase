@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using InMemoryDatabase;
+using RenderHeads.InMemoryDatabase;
 
-namespace RenderHeads
+namespace RenderHeads.Example
 {
     public class ColorEntry : TableEntry
     {
