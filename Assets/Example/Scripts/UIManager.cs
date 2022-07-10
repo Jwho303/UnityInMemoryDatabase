@@ -21,12 +21,19 @@ namespace RenderHeads
 
 		[SerializeField]
 		TextMeshProUGUI _cubeCounter;
+
+		private float _refreshInterval = 1f;
+		private float _refreshTimer = 0f;
 		#endregion
 
 		#region Public Methods
 		public void OnUpdate()
 		{
-			_fpsCounter.SetText($"FPS: {(int)(1f / Time.unscaledDeltaTime)}");
+			if (Time.unscaledTime > _refreshTimer)
+			{
+				_fpsCounter.SetText($"FPS: {(int)(1f / Time.unscaledDeltaTime)}");
+				_refreshTimer = Time.unscaledTime + _refreshInterval;
+			}
 		}
 
 		public void SetBallCounter(int count)
