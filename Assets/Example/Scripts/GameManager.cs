@@ -11,8 +11,11 @@ namespace RenderHeads
 		#endregion
 
 		#region Private Properties
-		
-		private GameDatabase _dataBase;
+
+		private GameDatabase _database;
+
+		[SerializeField]
+		private ColorSet _colorsSet;
 
 		[SerializeField]
 		private BallPool _ballPool;
@@ -21,20 +24,20 @@ namespace RenderHeads
 		[SerializeField]
 		private CubePool _cubePool;
 		private CubeSystem _cubeSystem;
-
-		private string _savePath = string.Empty;
 		#endregion
 
 		#region Public Methods
 		public void Start()
 		{
-			_savePath = System.IO.Path.Combine(Application.persistentDataPath, "save.json");
+			Application.targetFrameRate = 60;
 
-			_dataBase = new GameDatabase();
-			_dataBase.Initialize();
+			_database = new GameDatabase();
+			_database.Initialize();
 
-			_cubeSystem = new CubeSystem(_dataBase, _cubePool);
-			_ballSystem = new BallSystem(_dataBase, _ballPool);
+			_colorsSet.AddColorsToDatabase(_database);
+
+			_cubeSystem = new CubeSystem(_database, _cubePool);
+			_ballSystem = new BallSystem(_database, _ballPool);
 		}
 
 		public void Update()
@@ -48,9 +51,25 @@ namespace RenderHeads
 			_ballSystem.AddBall();
 		}
 
+		public void Add50Ball()
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				_ballSystem.AddBall();
+			}
+		}
+
 		public void RemoveBall()
 		{
 			_ballSystem.RemoveBall();
+		}
+
+		public void Remove50Ball()
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				_ballSystem.RemoveBall();
+			}
 		}
 
 		public void AddCube()
@@ -61,21 +80,6 @@ namespace RenderHeads
 		public void RemoveCube()
 		{
 			_cubeSystem.RemoveCube();
-		}
-
-		public void Save()
-		{
-			_ballSystem.Save();
-			_dataBase.Save(_savePath);
-
-			_dataBase.PrintSnapShot();
-			Debug.Log($"Save file to ({_savePath})");
-		}
-
-		public void Load()
-		{
-			_dataBase.Load(_savePath);
-			_ballSystem.Load();
 		}
 		#endregion
 

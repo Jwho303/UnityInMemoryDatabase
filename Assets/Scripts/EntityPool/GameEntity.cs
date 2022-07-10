@@ -28,6 +28,8 @@ namespace RenderHeads
 		{
             TableEntry = null;
 		}
+
+        public abstract void OnCreate();
 		#endregion
 
 		#region Private Methods

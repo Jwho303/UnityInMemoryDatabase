@@ -5,22 +5,32 @@ using UnityEngine;
 
 namespace RenderHeads
 {
-    public class CubeEntity : GameEntity<Cube>
-    {
-        #region Public Properties
-        
-        #endregion
+	public class CubeEntity : GameEntity<Cube>
+	{
+		#region Public Properties
 
-        #region Private Properties
+		#endregion
 
-        #endregion
+		#region Private Properties
+		[SerializeField]
+		private Material _material;
+		#endregion
 
-        #region Public Methods
+		#region Public Methods
+		public override void OnCreate()
+		{
+			_material = GetComponentInChildren<MeshRenderer>().material;
+		}
 
-        #endregion
+		public void SetColor(Color color)
+		{
+			_material.color = color;
+		}
+		#endregion
 
-        #region Private Methods
+		#region Private Methods
 
-        #endregion
-    }
+		#endregion
+
+	}
 }

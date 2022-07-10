@@ -37,6 +37,20 @@ namespace RenderHeads
 
 			return result;
 		}
+
+		internal static Guid GetRandomColorId(Database database)
+		{
+			List<ColorEntry> colors = database.GetAll<ColorEntry>();
+			int randomColorIndex = UnityEngine.Random.Range(0, colors.Count);
+
+			return colors[randomColorIndex].Id;
+		}
+
+		internal static Color GetColor(Database database, Guid colorId)
+		{
+			database.Get(colorId, out ColorEntry colorEntry);
+			return colorEntry.Color;
+		}
 		#endregion
 
 		#region Private Methods

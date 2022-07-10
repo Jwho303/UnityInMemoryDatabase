@@ -35,6 +35,12 @@ namespace RenderHeads
 				{
 					if (gameEntity.Arrived())
 					{
+						if (Helper.TryGetCube(_database, balls[i].TargetCubeId, out Cube cube))
+						{
+							balls[i].ColorId = cube.ColorId;
+							gameEntity.SetColor(Helper.GetColor(_database, gameEntity.TableEntry.ColorId));
+						}
+
 						AssignNewCubeTarget(balls[i], gameEntity);
 					}
 
@@ -47,7 +53,7 @@ namespace RenderHeads
 		{
 			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
 			{
-				Ball ball = new Ball(1, Vector3.zero, randomCube.Id);
+				Ball ball = new Ball(Helper.GetRandomColorId(_database), Vector3.zero, randomCube.Id);
 				_database.Insert(ball);
 
 				_entityPool.Take(ball);
@@ -88,9 +94,10 @@ namespace RenderHeads
 			}
 		}
 
-		public void Load()
+		public void Load(Database database)
 		{
 			_entityPool.ReleaseAll();
+			_database = database;
 
 			List<Ball> balls = _database.GetAll<Ball>();
 			int count = balls.Count;
@@ -108,19 +115,20 @@ namespace RenderHeads
 			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
 			{
 				ball.TargetCubeId = randomCube.Id;
-				ball.Save<Ball>(_database);
 				gameEntity.SetTargetPosition(randomCube.Position);
 			}
 		}
 
 		protected override void OnCreateEntity(BallEntity gameEntity)
 		{
+			gameEntity.OnCreate();
 			gameEntity.gameObject.SetActive(false);
 		}
 
 		protected override void OnGetEntity(BallEntity gameEntity)
 		{
 			gameEntity.transform.position = gameEntity.TableEntry.Position;
+			gameEntity.SetColor(Helper.GetColor(_database, gameEntity.TableEntry.ColorId));
 			gameEntity.gameObject.SetActive(true);
 		}
 

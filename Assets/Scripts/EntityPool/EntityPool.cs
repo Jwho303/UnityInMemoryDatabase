@@ -11,10 +11,12 @@ namespace RenderHeads
 	{
 		#region Public Properties
 		public Y Prefab;
-		public List<Y> GameEntities = new List<Y>();
 		#endregion
 
 		#region Private Properties
+		private Dictionary<Guid, Y> _activeGameEntities = new Dictionary<Guid, Y>();
+		private List<Y> _gameEntities = new List<Y>();
+
 		private Action<Y> _onCreateEntity = delegate { };
 		private Action<Y> _onGetEntity = delegate { };
 		private Action<Y> _onReleaseEntity = delegate { };
@@ -55,18 +57,18 @@ namespace RenderHeads
 
 		public void AddToPool(Y gameEntity)
 		{
-			GameEntities.Add(gameEntity);
+			_gameEntities.Add(gameEntity);
 		}
 
 		public Y Take(T tableEntry)
 		{
 			Y gameEntity = null;
 
-			for (int i = 0; i < GameEntities.Count; i++)
+			for (int i = 0; i < _gameEntities.Count; i++)
 			{
-				if (!GameEntities[i].gameObject.activeInHierarchy)
+				if (!_gameEntities[i].gameObject.activeInHierarchy)
 				{
-					gameEntity = GameEntities[i] as Y;
+					gameEntity = _gameEntities[i] as Y;
 					break;
 				}
 			}
@@ -76,6 +78,8 @@ namespace RenderHeads
 				gameEntity = CreateEntity();
 			}
 
+			_activeGameEntities.Add(tableEntry.Id, gameEntity);
+
 			gameEntity.Initialize(tableEntry);
 			_onGetEntity(gameEntity);
 
@@ -84,35 +88,38 @@ namespace RenderHeads
 
 		public void ReleaseAll()
 		{
-			int count = GameEntities.Count;
+			int count = _gameEntities.Count;
 
 			for (int i = 0; i < count; i++)
 			{
-				Release(GameEntities[i]);
+				Release(_gameEntities[i]);
 			}
 		}
 
 		public void Release(Y gameEntity)
 		{
+			_activeGameEntities.Remove(gameEntity.Id);
+
 			_onReleaseEntity(gameEntity);
 		}
 
 		public bool TryGet(Guid guid, out Y gameEntity)
 		{
-			gameEntity = null;
-			int count = GameEntities.Count;
+			gameEntity = _activeGameEntities[guid];
 
-			for (int i = 0; i < count; i++)
-			{
-				if (GameEntities[i].gameObject.activeInHierarchy)
-				{
-					if (GameEntities[i].Id == guid)
-					{
-						gameEntity = GameEntities[i];
-						break;
-					}
-				}
-			}
+			//int count = _gameEntities.Count;
+
+			//for (int i = 0; i < count; i++)
+			//{
+			//	if (_gameEntities[i].gameObject.activeInHierarchy)
+			//	{
+			//		if (_gameEntities[i].Id == guid)
+			//		{
+			//			gameEntity = _gameEntities[i];
+			//			break;
+			//		}
+			//	}
+			//}
 
 			return gameEntity != null;
 		}

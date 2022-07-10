@@ -11,7 +11,7 @@ namespace RenderHeads
     public class Ball : TableEntry
     {
         #region Public Properties
-        public int ColorIndex;
+        public Guid ColorId;
         public Vector3 Position;
 		public Guid TargetCubeId;
 		#endregion
@@ -21,9 +21,9 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
-		public Ball(int colorIndex, Vector3 position, Guid targetCube)
+		public Ball(Guid colorId, Vector3 position, Guid targetCube)
 		{
-			ColorIndex = colorIndex;
+			ColorId = colorId;
 			Position = position;
 			TargetCubeId = targetCube;
 		}

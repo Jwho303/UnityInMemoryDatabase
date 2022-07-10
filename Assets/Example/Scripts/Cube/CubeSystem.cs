@@ -28,8 +28,11 @@ namespace RenderHeads
 			for (int i = 0; i < count; i++)
 			{
 				cubes[i].TableEntry.Position = cubes[i].transform.position;
+				cubes[i].TableEntry.ColorId = Helper.GetRandomColorId(_database);
 				Cube cubeEntry = _database.Insert(cubes[i].TableEntry);
+				cubes[i].OnCreate();
 				cubes[i].Initialize(cubeEntry);
+				cubes[i].SetColor(Helper.GetColor(_database, cubeEntry.ColorId));
 				_entityPool.AddToPool(cubes[i]);
 			}
 		}
@@ -50,7 +53,7 @@ namespace RenderHeads
 			}
 
 			Vector3 position = Vector3.Lerp(cubes[cube1Index].Position, cubes[cube2Index].Position, 0.5f);
-			Cube cubeEntry = new Cube(position);
+			Cube cubeEntry = new Cube(position, Helper.GetRandomColorId(_database));
 			cubeEntry = _database.Insert(cubeEntry);
 			_entityPool.Take(cubeEntry);
 		}
@@ -71,17 +74,34 @@ namespace RenderHeads
 
 		public override void OnUpdate()
 		{
-
+			if (Input.GetMouseButtonDown(0))
+			{
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				if (Physics.Raycast(ray, out RaycastHit raycastHit))
+				{
+					CubeEntity cubeEntity = raycastHit.collider.GetComponent<CubeEntity>();
+					if (cubeEntity != null)
+					{
+						if (Helper.TryGetCube(_database, cubeEntity.TableEntry.Id, out Cube cube))
+						{
+							cube.ColorId = Helper.GetRandomColorId(_database);
+							cubeEntity.SetColor(Helper.GetColor(_database, cube.ColorId));
+						}
+					}
+				}
+			}
 		}
 
 		protected override void OnCreateEntity(CubeEntity gameEntity)
 		{
+			gameEntity.OnCreate();
 			gameEntity.gameObject.SetActive(false);
 		}
 
 		protected override void OnGetEntity(CubeEntity gameEntity)
 		{
 			gameEntity.transform.position = gameEntity.TableEntry.Position;
+			gameEntity.SetColor(Helper.GetColor(_database, gameEntity.TableEntry.ColorId));
 			gameEntity.gameObject.SetActive(true);
 		}
 

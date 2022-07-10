@@ -15,12 +15,24 @@ namespace RenderHeads
 		[SerializeField]
 		private float _speed = 5f;
 		private Vector3 _targetPosition;
+		[SerializeField]
+		private Material _material;
 		#endregion
 
 		#region Public Methods
+		public override void OnCreate()
+		{
+			_material = GetComponent<MeshRenderer>().material;
+		}
+
 		public void SetTargetPosition(Vector3 targetPosition)
 		{
 			_targetPosition = targetPosition;
+		}
+
+		public void SetColor(Color color)
+		{
+			_material.color = color;
 		}
 
 		internal bool Arrived()
