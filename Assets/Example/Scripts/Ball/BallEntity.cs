@@ -22,7 +22,7 @@ namespace RenderHeads
 		#region Public Methods
 		public override void OnCreate()
 		{
-			_material = GetComponent<MeshRenderer>().material;
+			_material = GetComponentInChildren<MeshRenderer>().material;
 		}
 
 		public void SetTargetPosition(Vector3 targetPosition)

@@ -79,34 +79,6 @@ namespace RenderHeads
 			}
 		}
 
-		public void Save()
-		{
-			List<Ball> balls = _database.GetAll<Ball>();
-			int count = balls.Count;
-
-			for (int i = 0; i < count; i++)
-			{
-				if (_entityPool.TryGet(balls[i].Id, out BallEntity gameEntity))
-				{
-					balls[i].Position = gameEntity.transform.position;
-					balls[i].Save<Ball>(_database);
-				}
-			}
-		}
-
-		public void Load(Database database)
-		{
-			_entityPool.ReleaseAll();
-			_database = database;
-
-			List<Ball> balls = _database.GetAll<Ball>();
-			int count = balls.Count;
-
-			for (int i = 0; i < count; i++)
-			{
-				_entityPool.Take(balls[i]);
-			}
-		}
 		#endregion
 
 		#region Private Methods

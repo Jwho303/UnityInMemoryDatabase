@@ -24,6 +24,9 @@ namespace RenderHeads
 		[SerializeField]
 		private CubePool _cubePool;
 		private CubeSystem _cubeSystem;
+
+		[SerializeField]
+		private UIManager _uiManager;
 		#endregion
 
 		#region Public Methods
@@ -44,11 +47,14 @@ namespace RenderHeads
 		{
 			_cubeSystem.OnUpdate();
 			_ballSystem.OnUpdate();
+			_uiManager.OnUpdate();
 		}
 
 		public void AddBall()
 		{
 			_ballSystem.AddBall();
+
+			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void Add50Ball()
@@ -57,11 +63,15 @@ namespace RenderHeads
 			{
 				_ballSystem.AddBall();
 			}
+
+			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void RemoveBall()
 		{
 			_ballSystem.RemoveBall();
+
+			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void Remove50Ball()
@@ -70,16 +80,22 @@ namespace RenderHeads
 			{
 				_ballSystem.RemoveBall();
 			}
+
+			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void AddCube()
 		{
 			_cubeSystem.AddCube();
+
+			_uiManager.SetCubeCounter(_database.GetAll<Cube>().Count);
 		}
 
 		public void RemoveCube()
 		{
 			_cubeSystem.RemoveCube();
+
+			_uiManager.SetCubeCounter(_database.GetAll<Cube>().Count);
 		}
 		#endregion
 
