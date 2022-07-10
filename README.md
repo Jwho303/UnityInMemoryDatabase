@@ -1,4 +1,4 @@
-# UnityInMemoryDatabase
+# Unity In Memory Database
 This codebase aims to aid developers in making games using a Data-Orientated approach to store, manage and serve data tables from memory. 
 
 ## Key Classes
