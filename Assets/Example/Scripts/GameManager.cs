@@ -47,9 +47,13 @@ namespace RenderHeads.Example
 
 		public void Update()
 		{
-			_cubeSystem.OnUpdate();
 			_ballSystem.OnUpdate();
 			_uiManager.OnUpdate();
+		}
+
+		public void FixedUpdate()
+		{
+			_cubeSystem.OnFixedUpdate();
 		}
 
 		public void AddBall()

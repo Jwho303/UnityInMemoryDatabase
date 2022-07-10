@@ -75,6 +75,11 @@ namespace RenderHeads.Example
 
 		public override void OnUpdate()
 		{
+
+		}
+
+		internal void OnFixedUpdate()
+		{
 			if (Input.GetMouseButtonDown(0))
 			{
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
