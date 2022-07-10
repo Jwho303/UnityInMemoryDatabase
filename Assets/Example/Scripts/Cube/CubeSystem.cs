@@ -32,7 +32,7 @@ namespace RenderHeads
 				Cube cubeEntry = _database.Insert(cubes[i].TableEntry);
 				cubes[i].OnCreate();
 				cubes[i].Initialize(cubeEntry);
-				cubes[i].SetColor(Helper.GetColor(_database, cubeEntry.ColorId));
+				cubes[i].SetMaterial(Helper.GetMaterial(cubes[i].TableEntry.ColorId));
 				_entityPool.AddToPool(cubes[i]);
 			}
 		}
@@ -85,7 +85,7 @@ namespace RenderHeads
 						if (Helper.TryGetCube(_database, cubeEntity.TableEntry.Id, out Cube cube))
 						{
 							cube.ColorId = Helper.GetRandomColorId(_database);
-							cubeEntity.SetColor(Helper.GetColor(_database, cube.ColorId));
+							cubeEntity.SetMaterial(Helper.GetMaterial(cube.ColorId));
 						}
 					}
 				}
@@ -101,7 +101,7 @@ namespace RenderHeads
 		protected override void OnGetEntity(CubeEntity gameEntity)
 		{
 			gameEntity.transform.position = gameEntity.TableEntry.Position;
-			gameEntity.SetColor(Helper.GetColor(_database, gameEntity.TableEntry.ColorId));
+			gameEntity.SetMaterial(Helper.GetMaterial(gameEntity.TableEntry.ColorId));
 			gameEntity.gameObject.SetActive(true);
 		}
 

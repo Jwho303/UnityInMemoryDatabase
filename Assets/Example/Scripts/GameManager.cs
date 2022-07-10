@@ -38,6 +38,7 @@ namespace RenderHeads
 			_database.Initialize();
 
 			_colorsSet.AddColorsToDatabase(_database);
+			Helper.CreatMaterials(_database);
 
 			_cubeSystem = new CubeSystem(_database, _cubePool);
 			_ballSystem = new BallSystem(_database, _ballPool);

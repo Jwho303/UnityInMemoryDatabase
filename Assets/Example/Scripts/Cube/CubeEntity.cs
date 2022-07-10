@@ -13,18 +13,18 @@ namespace RenderHeads
 
 		#region Private Properties
 		[SerializeField]
-		private Material _material;
+		private MeshRenderer _meshRenderer;
 		#endregion
 
 		#region Public Methods
 		public override void OnCreate()
 		{
-			_material = GetComponentInChildren<MeshRenderer>().material;
+			_meshRenderer = GetComponentInChildren<MeshRenderer>();
 		}
 
-		public void SetColor(Color color)
+		public void SetMaterial(Material material)
 		{
-			_material.color = color;
+			_meshRenderer.material = material;
 		}
 		#endregion
 

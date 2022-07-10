@@ -128,4 +128,4 @@ MonoBehaviour:
   TableEntry:
     Position: {x: 0, y: 0, z: 0}
   _speed: 5
-  _material: {fileID: 0}
+  _meshRenderer: {fileID: 0}

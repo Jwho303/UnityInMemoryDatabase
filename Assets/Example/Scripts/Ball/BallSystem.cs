@@ -15,13 +15,13 @@ namespace RenderHeads
 		#endregion
 
 		#region Private Properties
-
+		
 		#endregion
 
 		#region Public Methods
 		public BallSystem(Database database, BallPool ballPool) : base(database, ballPool, 100)
 		{
-			
+
 		}
 
 		public override void OnUpdate()
@@ -38,7 +38,7 @@ namespace RenderHeads
 						if (Helper.TryGetCube(_database, balls[i].TargetCubeId, out Cube cube))
 						{
 							balls[i].ColorId = cube.ColorId;
-							gameEntity.SetColor(Helper.GetColor(_database, gameEntity.TableEntry.ColorId));
+							gameEntity.SetMaterial(Helper.GetMaterial(gameEntity.TableEntry.ColorId));
 						}
 
 						AssignNewCubeTarget(balls[i], gameEntity);
@@ -100,7 +100,7 @@ namespace RenderHeads
 		protected override void OnGetEntity(BallEntity gameEntity)
 		{
 			gameEntity.transform.position = gameEntity.TableEntry.Position;
-			gameEntity.SetColor(Helper.GetColor(_database, gameEntity.TableEntry.ColorId));
+			gameEntity.SetMaterial(Helper.GetMaterial(gameEntity.TableEntry.ColorId));
 			gameEntity.gameObject.SetActive(true);
 		}
 

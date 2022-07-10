@@ -1,4 +1,5 @@
 //RenderHeads - Jeff Rusch
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,13 +17,13 @@ namespace RenderHeads
 		private float _speed = 5f;
 		private Vector3 _targetPosition;
 		[SerializeField]
-		private Material _material;
+		private MeshRenderer _meshRenderer;
 		#endregion
 
 		#region Public Methods
 		public override void OnCreate()
 		{
-			_material = GetComponentInChildren<MeshRenderer>().material;
+			_meshRenderer = GetComponentInChildren<MeshRenderer>();
 		}
 
 		public void SetTargetPosition(Vector3 targetPosition)
@@ -30,9 +31,9 @@ namespace RenderHeads
 			_targetPosition = targetPosition;
 		}
 
-		public void SetColor(Color color)
+		internal void SetMaterial(Material material)
 		{
-			_material.color = color;
+			_meshRenderer.material = material;
 		}
 
 		internal bool Arrived()
@@ -45,6 +46,8 @@ namespace RenderHeads
 			Vector3 direction = _targetPosition - transform.position;
 			transform.Translate(direction * _speed * Time.deltaTime);
 		}
+
+
 		#endregion
 
 		#region Private Methods
