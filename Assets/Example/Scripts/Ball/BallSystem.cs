@@ -50,32 +50,38 @@ namespace RenderHeads.Example
 			}
 		}
 
-		public void AddBall()
+		public void AddBall(int count)
 		{
-			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
+			List<Cube> cubes = _database.GetAll<Cube>();
+
+			for (int i = 0; i < count; i++)
 			{
-				Ball ball = new Ball(Helper.GetRandomColorId(_database), Vector3.zero, randomCube.Id);
+				int randomCubeIndex = UnityEngine.Random.Range(0, cubes.Count);
+				Ball ball = new Ball(Helper.GetRandomColorId(_database), Vector3.zero, cubes[randomCubeIndex].Id);
 				_database.Insert(ball);
 
 				_entityPool.Take(ball);
 			}
 		}
 
-		public void RemoveBall()
+		public void RemoveBall(int count)
 		{
 			List<Ball> balls = _database.GetAll<Ball>();
 
-			if (balls.Count > 0)
+			for (int i = 0; i < count; i++)
 			{
-				int randomBallIndex = UnityEngine.Random.Range(0, balls.Count);
-				if (_entityPool.TryGet(balls[randomBallIndex].Id, out BallEntity ballEntity))
+				if (balls.Count > 0)
 				{
-					_entityPool.Release(ballEntity);
-					_database.Remove(balls[randomBallIndex]);
-				}
-				else
-				{
-					Debug.LogError($"Cound not get a ball with id ({balls[randomBallIndex].Id})");
+					int randomBallIndex = UnityEngine.Random.Range(0, balls.Count);
+					if (_entityPool.TryGet(balls[randomBallIndex].Id, out BallEntity ballEntity))
+					{
+						_entityPool.Release(ballEntity);
+						_database.Remove(balls[randomBallIndex]);
+					}
+					else
+					{
+						Debug.LogError($"Cound not get a ball with id ({balls[randomBallIndex].Id})");
+					}
 				}
 			}
 		}

@@ -58,34 +58,28 @@ namespace RenderHeads.Example
 
 		public void AddBall()
 		{
-			_ballSystem.AddBall();
+			_ballSystem.AddBall(1);
 
 			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void Add50Ball()
 		{
-			for (int i = 0; i < 50; i++)
-			{
-				_ballSystem.AddBall();
-			}
+			_ballSystem.AddBall(50);
 
 			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void RemoveBall()
 		{
-			_ballSystem.RemoveBall();
+			_ballSystem.RemoveBall(1);
 
 			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void Remove50Ball()
 		{
-			for (int i = 0; i < 50; i++)
-			{
-				_ballSystem.RemoveBall();
-			}
+			_ballSystem.RemoveBall(50);
 
 			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
