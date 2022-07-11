@@ -20,7 +20,7 @@ namespace RenderHeads.Example
 		#endregion
 
 		#region Public Methods
-		public BallSystem(Database database, BallPool ballPool) : base(database, ballPool, 100)
+		public BallSystem(Database database, BallPool ballPool) : base(database, ballPool, 5000)
 		{
 
 		}

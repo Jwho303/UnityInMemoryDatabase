@@ -21,7 +21,7 @@ namespace RenderHeads.Example
 		#endregion
 
 		#region Public Methods
-		public CubeSystem(Database database, EntityPool<Cube, CubeEntity> entityPool) : base(database, entityPool, 10)
+		public CubeSystem(Database database, EntityPool<Cube, CubeEntity> entityPool) : base(database, entityPool, 50)
 		{
 			CubeEntity[] cubes = GameObject.FindObjectsOfType<CubeEntity>();
 			int count = cubes.Length;
