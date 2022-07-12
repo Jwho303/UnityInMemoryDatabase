@@ -16,7 +16,8 @@ namespace RenderHeads.Example
 		#endregion
 
 		#region Private Properties
-
+		private Queue<Action> _ballSpawnQueue = new Queue<Action>();
+		private int _ballsToSpawnPerFrame = 5;
 		#endregion
 
 		#region Public Methods
@@ -27,6 +28,11 @@ namespace RenderHeads.Example
 
 		public override void OnUpdate()
 		{
+			if (_ballSpawnQueue.Count > 0)
+			{
+				_ballSpawnQueue.Dequeue().Invoke();
+			}
+
 			List<Ball> balls = _database.GetAll<Ball>();
 			int count = balls.Count;
 
@@ -52,17 +58,19 @@ namespace RenderHeads.Example
 
 		public void AddBall(int count)
 		{
-			List<Cube> cubes = _database.GetAll<Cube>();
-			List<Ball> balls = new List<Ball>();
-			for (int i = 0; i < count; i++)
+			int queueCount = Mathf.FloorToInt(count / _ballsToSpawnPerFrame);
+
+			for (int i = 0; i < queueCount; i++)
 			{
-				int randomCubeIndex = UnityEngine.Random.Range(0, cubes.Count);
-				Ball ball = new Ball(Helper.GetRandomColorId(_database), Vector3.zero, cubes[randomCubeIndex].Id);
-				_database.Insert(ball);
-				balls.Add(ball);
+				_ballSpawnQueue.Enqueue(() => { AddBallsToPlay(_ballsToSpawnPerFrame); });
 			}
 
-			_entityPool.Take(balls);
+			int remainder = count % _ballsToSpawnPerFrame;
+
+			if (remainder > 0)
+			{
+				_ballSpawnQueue.Enqueue(() => { AddBallsToPlay(remainder); });
+			}
 		}
 
 		public void RemoveBall(int count)
@@ -90,6 +98,21 @@ namespace RenderHeads.Example
 		#endregion
 
 		#region Private Methods
+		private void AddBallsToPlay(int count)
+		{
+			List<Cube> cubes = _database.GetAll<Cube>();
+			List<Ball> balls = new List<Ball>();
+			for (int i = 0; i < count; i++)
+			{
+				int randomCubeIndex = UnityEngine.Random.Range(0, cubes.Count);
+				Ball ball = new Ball(Helper.GetRandomColorId(_database), Vector3.zero, cubes[randomCubeIndex].Id);
+				_database.Insert(ball);
+				balls.Add(ball);
+			}
+
+			_entityPool.Take(balls);
+		}
+
 		private void AssignNewCubeTarget(Ball ball, BallEntity gameEntity)
 		{
 			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
