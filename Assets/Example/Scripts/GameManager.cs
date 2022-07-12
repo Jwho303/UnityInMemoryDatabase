@@ -43,6 +43,9 @@ namespace RenderHeads.Example
 
 			_cubeSystem = new CubeSystem(_database, _cubePool);
 			_ballSystem = new BallSystem(_database, _ballPool);
+
+			_database.Subscribe<Ball>(() => { _uiManager.SetBallCounter(_database.GetAll<Ball>().Count); });
+			_database.Subscribe<Cube>(() => { _uiManager.SetCubeCounter(_database.GetAll<Cube>().Count); });
 		}
 
 		public void Update()
@@ -59,43 +62,31 @@ namespace RenderHeads.Example
 		public void AddBall()
 		{
 			_ballSystem.AddBall(1);
-
-			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void Add50Ball()
 		{
 			_ballSystem.AddBall(50);
-
-			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void RemoveBall()
 		{
 			_ballSystem.RemoveBall(1);
-
-			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void Remove50Ball()
 		{
 			_ballSystem.RemoveBall(50);
-
-			_uiManager.SetBallCounter(_database.GetAll<Ball>().Count);
 		}
 
 		public void AddCube()
 		{
 			_cubeSystem.AddCube();
-
-			_uiManager.SetCubeCounter(_database.GetAll<Cube>().Count);
 		}
 
 		public void RemoveCube()
 		{
 			_cubeSystem.RemoveCube();
-
-			_uiManager.SetCubeCounter(_database.GetAll<Cube>().Count);
 		}
 		#endregion
 

@@ -15,6 +15,7 @@ namespace RenderHeads.InMemoryDatabase
 
 		#region Private Properties
 		private List<TableEntry> _entries = new List<TableEntry>();
+		private Action _entryChangeSubscriptions = delegate { };
 		#endregion
 
 		#region Public Methods
@@ -27,6 +28,7 @@ namespace RenderHeads.InMemoryDatabase
 		{
 			entry.Id = Guid.NewGuid();
 			_entries.Add(entry);
+			_entryChangeSubscriptions();
 			return entry;
 		}
 
@@ -90,7 +92,7 @@ namespace RenderHeads.InMemoryDatabase
 					break;
 				}
 			}
-
+			_entryChangeSubscriptions();
 			return result;
 		}
 
@@ -106,7 +108,19 @@ namespace RenderHeads.InMemoryDatabase
 		}
 		internal bool Remove<T>(T entry) where T : TableEntry
 		{
-			return _entries.Remove(entry);
+			bool result = _entries.Remove(entry);
+			_entryChangeSubscriptions();
+			return result;
+		}
+
+		public void Subscribe(Action action)
+		{
+			_entryChangeSubscriptions += action;
+		}
+
+		public void Unsubscribe(Action action)
+		{
+			_entryChangeSubscriptions -= action;
 		}
 		#endregion
 

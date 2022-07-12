@@ -113,41 +113,54 @@ namespace RenderHeads.InMemoryDatabase
 			Debug.Log(s);
 		}
 
-		internal virtual bool Save(string path)
+		public void Subscribe<T>(Action action)
 		{
-			bool result = false;
-
-			string json = JsonUtility.ToJson(_database, true);
-			try
-			{
-				File.WriteAllText(path, json);
-				result = true;
-			}
-			catch(SystemException e)
-			{
-				Debug.LogError($"[{this.GetType().Name}] {e}");
-			}
-
-			return result;
+			Type t = typeof(T);
+			_database[t.FullName].Subscribe(action);
 		}
 
-		internal virtual bool Load(string path)
+		public void Unsubscribe<T>(Action action)
 		{
-			bool result = false;
-
-			try
-			{
-				string fileContents = File.ReadAllText(path);
-				_database = JsonUtility.FromJson<Dictionary<string, Table>>(fileContents);
-				result = true;
-			}
-			catch (SystemException e)
-			{
-				Debug.LogError($"[{this.GetType().Name}] {e}");
-			}
-
-			return result;
+			Type t = typeof(T);
+			_database[t.FullName].Unsubscribe(action);
 		}
+
+		//TODO
+		//internal virtual bool Save(string path)
+		//{
+		//	bool result = false;
+
+		//	string json = JsonUtility.ToJson(_database, true);
+		//	try
+		//	{
+		//		File.WriteAllText(path, json);
+		//		result = true;
+		//	}
+		//	catch(SystemException e)
+		//	{
+		//		Debug.LogError($"[{this.GetType().Name}] {e}");
+		//	}
+
+		//	return result;
+		//}
+
+		//internal virtual bool Load(string path)
+		//{
+		//	bool result = false;
+
+		//	try
+		//	{
+		//		string fileContents = File.ReadAllText(path);
+		//		_database = JsonUtility.FromJson<Dictionary<string, Table>>(fileContents);
+		//		result = true;
+		//	}
+		//	catch (SystemException e)
+		//	{
+		//		Debug.LogError($"[{this.GetType().Name}] {e}");
+		//	}
+
+		//	return result;
+		//}
 		#endregion
 
 		#region Private Methods
