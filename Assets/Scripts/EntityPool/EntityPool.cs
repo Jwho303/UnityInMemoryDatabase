@@ -86,6 +86,48 @@ namespace RenderHeads.EntitySystem
 			return gameEntity as Y;
 		}
 
+		public List<Y> Take(List<T> tableEntries)
+		{
+			List<Y> gameEntities = new List<Y>();
+
+			for (int i = 0; i < _gameEntities.Count; i++)
+			{
+				if (!_gameEntities[i].gameObject.activeInHierarchy)
+				{
+					gameEntities.Add(_gameEntities[i]);
+
+					if (gameEntities.Count == tableEntries.Count)
+					{
+						break;
+					}
+				}
+			}
+
+			int entitiesCount = gameEntities.Count;
+
+			if (entitiesCount < tableEntries.Count)
+			{
+				int difference = tableEntries.Count - entitiesCount;
+
+				for (int i = 0; i < difference; i++)
+				{
+					gameEntities.Add(CreateEntity());
+				}
+			}
+
+			Debug.Assert(entitiesCount == tableEntries.Count, $"[{this.GetType().Name}] gameEntities ({entitiesCount}) != tableEntries ({tableEntries.Count})");
+
+			for (int i = 0; i < entitiesCount; i++)
+			{
+				_activeGameEntities.Add(tableEntries[i].Id, gameEntities[i]);
+
+				gameEntities[i].Initialize(tableEntries[i]);
+				_onGetEntity(gameEntities[i]);
+			}
+
+			return gameEntities;
+		}
+
 		public void ReleaseAll()
 		{
 			int count = _gameEntities.Count;
@@ -106,20 +148,6 @@ namespace RenderHeads.EntitySystem
 		public bool TryGet(Guid guid, out Y gameEntity)
 		{
 			gameEntity = _activeGameEntities[guid];
-
-			//int count = _gameEntities.Count;
-
-			//for (int i = 0; i < count; i++)
-			//{
-			//	if (_gameEntities[i].gameObject.activeInHierarchy)
-			//	{
-			//		if (_gameEntities[i].Id == guid)
-			//		{
-			//			gameEntity = _gameEntities[i];
-			//			break;
-			//		}
-			//	}
-			//}
 
 			return gameEntity != null;
 		}

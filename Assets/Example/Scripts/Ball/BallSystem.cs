@@ -16,7 +16,7 @@ namespace RenderHeads.Example
 		#endregion
 
 		#region Private Properties
-		
+
 		#endregion
 
 		#region Public Methods
@@ -53,15 +53,16 @@ namespace RenderHeads.Example
 		public void AddBall(int count)
 		{
 			List<Cube> cubes = _database.GetAll<Cube>();
-
+			List<Ball> balls = new List<Ball>();
 			for (int i = 0; i < count; i++)
 			{
 				int randomCubeIndex = UnityEngine.Random.Range(0, cubes.Count);
 				Ball ball = new Ball(Helper.GetRandomColorId(_database), Vector3.zero, cubes[randomCubeIndex].Id);
 				_database.Insert(ball);
-
-				_entityPool.Take(ball);
+				balls.Add(ball);
 			}
+
+			_entityPool.Take(balls);
 		}
 
 		public void RemoveBall(int count)
