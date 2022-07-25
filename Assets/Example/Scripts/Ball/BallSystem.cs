@@ -36,6 +36,8 @@ namespace RenderHeads.InMemoryDatabase.Example
 			List<Ball> balls = _database.GetAll<Ball>();
 			int count = balls.Count;
 
+			List<Cube> cubes = new List<Cube>();
+
 			for (int i = 0; i < count; i++)
 			{
 				if (_entityPool.TryGet(balls[i].Id, out BallEntity gameEntity))
@@ -48,7 +50,15 @@ namespace RenderHeads.InMemoryDatabase.Example
 							gameEntity.SetMaterial(Helper.GetMaterial(gameEntity.TableEntry.ColorId));
 						}
 
-						AssignNewCubeTarget(balls[i], gameEntity);
+						if (cubes.Count == 0)
+						{
+							cubes = _database.GetAll<Cube>();
+						}
+
+						int randomCubeIndex = UnityEngine.Random.Range(0, cubes.Count);
+						Cube randomCube = cubes[randomCubeIndex];
+
+						AssignNewCubeTarget(balls[i], gameEntity, randomCube);
 					}
 
 					gameEntity.MoveToTarget();
@@ -113,13 +123,10 @@ namespace RenderHeads.InMemoryDatabase.Example
 			_entityPool.Take(balls);
 		}
 
-		private void AssignNewCubeTarget(Ball ball, BallEntity gameEntity)
+		private void AssignNewCubeTarget(Ball ball, BallEntity gameEntity, Cube cubeTarget)
 		{
-			if (Helper.TrGetRandomCube(_database, out Cube randomCube))
-			{
-				ball.TargetCubeId = randomCube.Id;
-				gameEntity.SetTargetPosition(randomCube.Position);
-			}
+			ball.TargetCubeId = cubeTarget.Id;
+			gameEntity.SetTargetPosition(cubeTarget.Position);
 		}
 
 		protected override void OnCreateEntity(BallEntity gameEntity)
