@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RenderHeads.EntitySystem;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
     public class CubePool : EntityPool<Cube, CubeEntity>
     {

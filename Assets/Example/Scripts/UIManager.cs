@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	public class UIManager : MonoBehaviour
 	{

@@ -6,7 +6,7 @@ using RenderHeads.InMemoryDatabase;
 using RenderHeads.EntitySystem;
 using UnityEngine;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	public class BallSystem : EntityPoolSystem<Ball, BallEntity>
 	{

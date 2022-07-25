@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	public class GameManager : MonoBehaviour
 	{

@@ -5,7 +5,7 @@ using UnityEngine;
 using RenderHeads.InMemoryDatabase;
 using System;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	public static class Helper
 	{
@@ -38,21 +38,6 @@ namespace RenderHeads.Example
 		public static bool TryGetCube(Database database, Guid cubeId, out Cube cube)
 		{
 			return database.Get(cubeId, out cube);
-		}
-
-		public static bool TrGetRandomCube(Database database, out Cube cube)
-		{
-			List<Cube> cubes = database.GetAll<Cube>();
-			int randomCubeIndex = UnityEngine.Random.Range(0, cubes.Count);
-			cube = cubes[randomCubeIndex];
-			bool result = cube != null;
-
-			if (!result)
-			{
-				Debug.LogError($"[Helper] No cube found!");
-			}
-
-			return result;
 		}
 
 		internal static Guid GetRandomColorId(Database database)

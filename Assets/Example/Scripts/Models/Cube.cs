@@ -5,7 +5,7 @@ using UnityEngine;
 using RenderHeads.InMemoryDatabase;
 using System;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	[System.Serializable]
 	public class Cube : TableEntry

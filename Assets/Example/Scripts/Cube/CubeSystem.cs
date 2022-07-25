@@ -7,7 +7,7 @@ using RenderHeads.EntitySystem;
 using UnityEngine;
 using System.Linq;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	public class CubeSystem : EntityPoolSystem<Cube, CubeEntity>
 	{

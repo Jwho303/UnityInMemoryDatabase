@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RenderHeads.InMemoryDatabase;
 
-namespace RenderHeads.Example
+namespace RenderHeads.InMemoryDatabase.Example
 {
 	public class GameDatabase : Database
 	{
