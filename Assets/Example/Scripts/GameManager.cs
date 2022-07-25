@@ -50,13 +50,13 @@ namespace RenderHeads.InMemoryDatabase.Example
 
 		public void Update()
 		{
-			_ballSystem.OnUpdate();
 			_uiManager.OnUpdate();
 		}
 
 		public void FixedUpdate()
 		{
 			_cubeSystem.OnFixedUpdate();
+			_ballSystem.OnUpdate();
 		}
 
 		public void AddBall()
