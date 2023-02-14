@@ -96,6 +96,23 @@ namespace RenderHeads.InMemoryDatabase
 			return _database[t.FullName].Remove(entry);
 		}
 
+		public List<T2> Join<T1, T2>(Func<T1, T2, bool> joinPredicate)
+		where T1 : TableEntry
+		where T2 : TableEntry
+        {
+            Type t1 = typeof(T1);
+			List<T1> list1 = _database[t1.FullName].GetAll<T1>();
+
+            Type t2 = typeof(T2);
+            List<T2> list2 = _database[t2.FullName].GetAll<T2>();
+
+            List<T2> result = (from obj1 in list1
+                               from obj2 in list2
+                               where obj2 is T2 && joinPredicate(obj1, (T2)obj2)
+                               select (T2)obj2).ToList();
+            return result;
+        }
+
 		internal void PrintSnapShot()
 		{
 			string s = $"[{this.GetType().Name}]\n";
