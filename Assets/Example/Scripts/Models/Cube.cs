@@ -1,11 +1,10 @@
-//RenderHeads - Jeff Rusch
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RenderHeads.InMemoryDatabase;
+using Jwho303.InMemoryDatabase;
 using System;
 
-namespace RenderHeads.InMemoryDatabase.Example
+namespace Jwho303.InMemoryDatabase.Example
 {
 	[System.Serializable]
 	public class Cube : TableEntry

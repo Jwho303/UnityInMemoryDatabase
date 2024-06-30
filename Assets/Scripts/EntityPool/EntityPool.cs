@@ -1,11 +1,10 @@
-//RenderHeads - Jeff Rusch
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RenderHeads.InMemoryDatabase;
+using Jwho303.InMemoryDatabase;
 using System;
 
-namespace RenderHeads.EntitySystem
+namespace Jwho303.EntitySystem
 {
 	public abstract class EntityPool<T, Y> : MonoBehaviour where T : TableEntry where Y : GameEntity<T>
 	{

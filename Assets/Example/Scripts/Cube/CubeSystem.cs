@@ -1,13 +1,12 @@
-//RenderHeads - Jeff Rusch
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using RenderHeads.InMemoryDatabase;
-using RenderHeads.EntitySystem;
+using Jwho303.InMemoryDatabase;
+using Jwho303.EntitySystem;
 using UnityEngine;
 using System.Linq;
 
-namespace RenderHeads.InMemoryDatabase.Example
+namespace Jwho303.InMemoryDatabase.Example
 {
 	public class CubeSystem : EntityPoolSystem<Cube, CubeEntity>
 	{

@@ -1,11 +1,11 @@
-//RenderHeads - Jeff Rusch
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using System.Linq;
 
-namespace RenderHeads.InMemoryDatabase
+namespace Jwho303.InMemoryDatabase
 {
 	public abstract class Database
 	{

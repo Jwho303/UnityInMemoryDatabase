@@ -1,9 +1,8 @@
-//RenderHeads - Jeff Rusch
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RenderHeads.InMemoryDatabase.Example
+namespace Jwho303.InMemoryDatabase.Example
 {
 	public class GameManager : MonoBehaviour
 	{

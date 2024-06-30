@@ -1,10 +1,9 @@
-//RenderHeads - Jeff Rusch
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RenderHeads.InMemoryDatabase;
+using Jwho303.InMemoryDatabase;
 
-namespace RenderHeads.EntitySystem
+namespace Jwho303.EntitySystem
 {
     public abstract class BaseEntitySystem<T> where T : TableEntry
     {

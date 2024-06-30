@@ -1,11 +1,10 @@
-//RenderHeads - Jeff Rusch
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
 
-namespace RenderHeads.InMemoryDatabase
+namespace Jwho303.InMemoryDatabase
 {
 	public class Table
 	{
